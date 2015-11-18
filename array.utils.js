@@ -1,0 +1,173 @@
+Array.prototype.insert = function (index, item) {
+    this.splice(index, 1, item);
+};
+
+Array.prototype.clear = function () {
+    this.length = 0;
+};
+
+Array.prototype.removeAt = function (index) {
+    this.splice(index, 1);
+};
+
+Array.prototype.empty = function (query) {
+    if (typeof (query) === "function") {
+        return this.where(query).length === 0;
+    }
+    return this.length === 0;
+};
+
+Array.prototype.any = function (query) {
+    if (typeof(query) === "function") {
+        return this.where(query).length > 0;
+    }
+    return this.length > 0;
+};
+
+Array.prototype.removeFirst = function (item) {
+    for (var i = 0; i < this.length; i++) {
+        if (this[i] == item) {
+            this.splice(i, 1);
+            return item;
+        }
+    }
+};
+
+Array.prototype.removeAll = function (item) {
+    for (var i = 0; i < this.length; i++) {
+        if (this[i] == item) {
+            this.splice(i, 1);
+        }
+    }
+};
+
+Array.prototype.equals = function (array) {
+    var a1 = JSON.stringify(this);
+    var a2 = JSON.stringify(array);
+
+    return a1 === a2;
+}
+
+Array.prototype.seekAndDestroy = function (w) {
+    var founds = [];
+    for (var i = 0; i < this.length; i++) {
+        if (w(this[i])) {
+            this.removeFirst(this[i]);
+            i--;
+        }
+    }
+};
+
+Array.prototype.where = function (w) {
+    var founds = [];
+    for (var i = 0; i < this.length; i++) {
+        if (w(this[i])) {
+            founds.push(this[i]);
+        }
+    }
+    return founds;
+};
+
+
+Array.prototype.each = function (callback) {
+    for (var i = 0; i < this.length; i++) {
+        var r = callback(this[i], i);
+        if (r == false) break;
+    }
+};
+
+Array.prototype.map = function (callback) {
+    var map = [];
+    for (var i = 0; i < this.length; i++) {
+        var r = callback(this[i], i);
+        map.push(r);
+    }
+    return map;
+};
+
+Array.prototype.contains = function (array) {
+    if (!array) return false;
+    if (this.length == 0) return false;
+    var temp = [];
+    var a = array;
+    var b = this;
+    if (array.length > this.length) {
+        a = this;
+        b = array;
+    }
+
+    for (var i = 0; i < a.length; i++) {
+        for (var j = 0; j < b.length; j++) {
+            if (b[j] == a[i]) {
+                temp.push(b[j]);
+                break;
+            }
+        }
+    }
+    return a.equals(temp);
+
+};
+
+Array.prototype.last = function () {
+    if (this.length > 0) {
+        return this[this.length - 1];
+    }
+    return null;
+};
+
+Array.prototype.update = function (array, callback) {
+    var i = 0;
+    var j = 0;
+    for (i = 0; i < array.length; i++) {
+        for (j = 0; j < this.length; j++) {
+            if (callback(this[j], array[i])) {
+                break;
+            }
+        }
+        this[j] = array[i];
+    }
+}
+Array.prototype.innerFor = function (innerArray, callback) {
+    for (var i = 0; i < this.length; i++) {
+        for (var j = 0; j < innerArray.length; j++) {
+            if (callback(this[i], innerArray[j])) {
+                return;
+            }
+        }
+    }
+}
+
+
+Array.prototype.sum = function (callback) {
+    var acc = 0;
+    for (var i = 0; i < this.length; i++) {
+        acc += callback(this[i]);
+    }
+    return acc;
+};
+
+Array.prototype.first = function (callback) {
+    if (typeof(callback) === "function") {
+        for (var i = 0; i < this.length; i++) {
+            if (callback(this[i])) {
+                return this[i];
+            }
+        }
+    } else {
+        if (this.length > 0) {
+            return this[0];
+        }
+        return null;
+    }
+};
+
+
+Array.prototype.findIndex = function (callback) {
+    if (typeof (callback) === "function") {
+        for (var i = 0; i < this.length; i++) {
+            if (callback(this[i])) {
+                return i;
+            }
+        }
+    }
+};
