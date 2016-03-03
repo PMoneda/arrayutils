@@ -178,7 +178,7 @@ Array.prototype.groupBy = function (key) {
         for (var i = 0; i < this.length; i++) {
             var position, keyValue;
             if(typeof(key) === "string"){
-                if(!this[i][key]) throw "Invalid key arg";
+                if(this[i][key] === undefined) throw "Invalid key arg";
                 keyValue = this[i][key];
             }else{
                 keyValue = key(this[i]);
