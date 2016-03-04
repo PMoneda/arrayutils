@@ -171,3 +171,25 @@ Array.prototype.findIndex = function (callback) {
         }
     }
 };
+
+Array.prototype.groupBy = function (key) {
+    if(typeof(key) === "function" || typeof(key) === "string"){
+        var array = [];
+        for (var i = 0; i < this.length; i++) {
+            var position, keyValue;
+            if(typeof(key) === "string"){
+                if(this[i][key] === undefined) throw "Invalid key arg";
+                keyValue = this[i][key];
+            }else{
+                keyValue = key(this[i]);
+            }
+            position = array.findIndex(function (x) { return x.Key === keyValue });
+            if (position !== undefined) {
+                array[position].Values.push(this[i]);
+            } else {
+                array.push({ Key: keyValue, Values: [this[i]] });
+            }
+        }
+        return array;
+    }
+};
