@@ -51,8 +51,11 @@ Array.prototype.equals = function (array) {
 Array.prototype.seekAndDestroy = function (w) {
     var founds = [];
     for (var i = 0; i < this.length; i++) {
-        if (w(this[i])) {
-            this.removeFirst(this[i]);
+        if (typeof(w) === "function" && w(this[i])) {
+            this.removeAt(i);
+            i--;
+        }else if(this[i]===w){
+            this.removeAt(i);
             i--;
         }
     }
