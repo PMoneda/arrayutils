@@ -1,3 +1,12 @@
+Array.prototype.select = function (key) {
+    var newList = [];
+    for (var i = 0; i < this.length; i++) {
+        var obj = {};
+        obj[key] = this[i][key];
+        newList.insert(i,obj);
+    }
+    return newList;
+};
 Array.prototype.insert = function (index, item) {
     this.splice(index, 1, item);
 };
