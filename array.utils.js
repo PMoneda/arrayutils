@@ -26,6 +26,15 @@ Array.prototype.empty = function (query) {
     return this.length === 0;
 };
 
+Array.prototype.toDictionary = function (key) {
+    var result = {};
+    for (var i = 0; i < this.length; i++) {
+        result[this[i][key]] = this[i];
+    }
+    return result;
+};
+
+
 Array.prototype.any = function (query) {
     if (typeof(query) === "function") {
         return this.where(query).length > 0;
