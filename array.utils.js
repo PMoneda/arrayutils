@@ -26,15 +26,6 @@ Array.prototype.empty = function (query) {
     return this.length === 0;
 };
 
-Array.prototype.toDictionary = function (key) {
-    var result = {};
-    for (var i = 0; i < this.length; i++) {
-        result[this[i][key]] = this[i];
-    }
-    return result;
-};
-
-
 Array.prototype.any = function (query) {
     if (typeof(query) === "function") {
         return this.where(query).length > 0;
@@ -206,7 +197,17 @@ Array.prototype.flatMap = function () {
     }
     return result;
 };
-
+Array.prototype.toDictionary = function (key) {
+    var result = {};
+    for (var i = 0; i < this.length; i++) {
+        if (typeof(key) === "function") {
+            result[key(this[i])] = this[i];
+        } else {
+            result[this[i][key]] = this[i];
+        }
+    }
+    return result;
+};
 Array.prototype.groupBy = function (key) {
     if(typeof(key) === "function" || typeof(key) === "string"){
         var array = [];
