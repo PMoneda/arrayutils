@@ -184,6 +184,20 @@ Array.prototype.findIndex = function (callback) {
     }
 };
 
+Array.prototype.flatMap = function () {
+    var result = [];
+    for (var i = 0; i < this.length; i++) {
+        if (Array.isArray(this[i])) {
+            for(var j=0;j<this[i].length;j++){
+              result.push(this[i][j]);   
+            }
+        }else{
+            result.push(this[i]);
+        }
+    }
+    return result;
+};
+
 Array.prototype.groupBy = function (key) {
     if(typeof(key) === "function" || typeof(key) === "string"){
         var array = [];
