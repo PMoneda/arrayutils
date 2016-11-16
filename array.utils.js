@@ -229,3 +229,14 @@ Array.prototype.groupBy = function (key) {
         return array;
     }
 };
+
+Array.prototype.distinct = function (key) {
+    var result = this.toDictionary(key);
+    var list = [];
+    for(var prop in result){
+        if(result.hasOwnProperty(prop)){
+            list.push(result[prop]);
+        }
+    }
+    return list;
+};
